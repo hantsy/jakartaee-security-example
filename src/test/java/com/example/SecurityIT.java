@@ -23,22 +23,7 @@ public class SecurityIT {
 
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-        final String WEBAPP_SRC = "src/main/webapp";
-        return ShrinkWrap.create(WebArchive.class)
-                .addPackages(true,
-                        "com.example.domain",
-                        "com.example.application",
-                        "com.example.infrastructure",
-                        "com.example.interfaces")
-                .addAsWebInfResource("test-beans.xml", "beans.xml")
-                .addAsWebInfResource("test-web.xml", "web.xml")
-                .addAsWebInfResource("test-faces-config.xml", "faces-config.xml")
-                .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
-                .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
-                .addAsResource("META-INF/keys/publickey.pem", "META-INF/keys/publickey.pem")
-                .addAsResource("META-INF/keys/privatekey.pem", "META-INF/keys/privatekey.pem")
-                .addAsWebResource(new File(WEBAPP_SRC, "login.xhtml"))
-                .addAsWebResource(new File(WEBAPP_SRC, "profile.xhtml"));
+        return ShrinkWrap.createFromZipFile(WebArchive.class, new File("target/jakartaee-security-example.war"));
     }
 
     @ArquillianResource

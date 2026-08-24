@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Qualifier
-public @interface WebAuthenticationQualifier {
+public @interface WebAuthenticationMechanism {
 }

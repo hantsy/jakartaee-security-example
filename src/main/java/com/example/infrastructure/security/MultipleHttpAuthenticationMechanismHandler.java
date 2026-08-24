@@ -31,7 +31,7 @@ public class MultipleHttpAuthenticationMechanismHandler implements HttpAuthentic
     private HttpAuthenticationMechanism restAuthenticationMechanism;
 
     @Inject
-    @WebAuthenticationQualifier
+    @WebAuthenticationMechanism
     private HttpAuthenticationMechanism webAuthenticationMechanism;
 
     @Override

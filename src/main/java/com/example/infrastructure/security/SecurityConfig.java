@@ -11,7 +11,7 @@ import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue
                 errorPage = "/login.faces?error",
                 useForwardToLogin = false // use redirect
         ),
-        qualifiers = {WebAuthenticationQualifier.class}
+        qualifiers = {WebAuthenticationMechanism.class}
 )
 @DeclareRoles({"user", "admin"})
 @ApplicationScoped

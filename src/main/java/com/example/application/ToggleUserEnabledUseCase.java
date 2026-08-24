@@ -10,9 +10,9 @@ public class ToggleUserEnabledUseCase {
     @Inject
     private UserAccountRepository repository;
 
-    public UserAccount toggle(Long id) {
+    public void toggle(Long id) {
         UserAccount user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
         user.setEnabled(!user.isEnabled());
-        return repository.update(user);
+        repository.update(user);
     }
 }

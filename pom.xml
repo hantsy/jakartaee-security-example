@@ -91,13 +91,13 @@
             <groupId>org.glassfish.main.common</groupId>
             <artifactId>glassfish-api</artifactId>
             <version>${glassfish.version}</version>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>${nimbus-jose-jwt.version}</version>
-            <!--<scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.omnifaces</groupId>

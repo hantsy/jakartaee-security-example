@@ -8,7 +8,7 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class RestExceptionMapper implements ExceptionMapper<AuthenticationException> {
+public class AuthenticationExceptionMapper implements ExceptionMapper<AuthenticationException> {
 
     @Override
     public Response toResponse(AuthenticationException exception) {

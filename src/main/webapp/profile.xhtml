@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+<h:head>
+    <f:metadata>
+        <f:viewAction action="#{profileBean.init()}"/>
+    </f:metadata>
+    <title>Profile</title>
+</h:head>
+<h:body>
+    <h1>Profile</h1>
+    <div><strong>Principal Name</strong>: #{profileBean.name}</div>
+    <div><strong>Roles</strong>: #{profileBean.roles}</div>
+</h:body>
+</html>

@@ -28,6 +28,7 @@ public class MultipleHttpAuthenticationMechanismHandler implements HttpAuthentic
 
     @Inject
     @MicroProfileJwtAuthenticationMechanism
+    //@Named("jwtAuthenticationMechanism")
     private HttpAuthenticationMechanism restAuthenticationMechanism;
 
     @Inject

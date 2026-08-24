@@ -2,12 +2,17 @@ package com.example.interfaces.faces;
 
 import com.example.application.CreateUserUseCase;
 import com.example.domain.model.RoleType;
+import com.example.infrastructure.security.Authorized;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Named
 @RequestScoped
+@Authorized(roles = "admin")
 public class CreateUserBean {
 
     @Inject
@@ -15,15 +20,15 @@ public class CreateUserBean {
 
     private String username;
     private String email;
-    private RoleType role = RoleType.REST;
+    private Set<RoleType> roles = new HashSet<>();
     private String generatedPassword;
 
     public String create() {
-        this.generatedPassword = createUserUseCase.create(username, email, role);
+        this.generatedPassword = createUserUseCase.create(username, email, roles);
         return null;
     }
 
-    public RoleType[] getRoles() {
+    public RoleType[] getAllRoles() {
         return RoleType.values();
     }
 
@@ -43,12 +48,12 @@ public class CreateUserBean {
         this.email = email;
     }
 
-    public RoleType getRole() {
-        return role;
+    public Set<RoleType> getRoles() {
+        return roles;
     }
 
-    public void setRole(RoleType role) {
-        this.role = role;
+    public void setRoles(Set<RoleType> roles) {
+        this.roles = roles;
     }
 
     public String getGeneratedPassword() {

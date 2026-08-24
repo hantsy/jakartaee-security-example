@@ -1,5 +1,6 @@
 package com.example.infrastructure.security;
 
+import com.example.domain.model.RoleType;
 import com.example.domain.repository.UserAccountRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -9,7 +10,7 @@ import jakarta.security.enterprise.identitystore.CredentialValidationResult;
 import jakarta.security.enterprise.identitystore.IdentityStore;
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class JpaIdentityStore implements IdentityStore {
@@ -29,7 +30,7 @@ public class JpaIdentityStore implements IdentityStore {
         return repository.findByUsername(upc.getCaller())
                 .filter(user -> passwordHash.verify(upc.getPassword().getValue(), user.getPassword()))
                 .filter(user -> user.isEnabled())
-                .map(user -> new CredentialValidationResult(user.getUsername(), Set.of(user.getRole().getRoleName())))
+                .map(user -> new CredentialValidationResult(user.getUsername(), user.getRoles().stream().map(RoleType::getRoleName).collect(Collectors.toSet())))
                 .orElse(CredentialValidationResult.INVALID_RESULT);
     }
 }

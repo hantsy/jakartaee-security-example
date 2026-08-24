@@ -1,4 +1,6 @@
 package com.example.interfaces.rest;
 
-public record RegisterResponse(String username, String role) {
+import java.util.Set;
+
+public record RegisterResponse(String username, Set<String> roles) {
 }

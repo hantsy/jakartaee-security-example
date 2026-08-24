@@ -35,8 +35,8 @@ public class SecurityIT {
                 .addAsWebInfResource("test-faces-config.xml", "faces-config.xml")
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
-                .addAsResource("publickey.pem", "publickey.pem")
-                .addAsResource("privatekey.pem", "privatekey.pem")
+                .addAsResource("META-INF/keys/publickey.pem", "META-INF/keys/publickey.pem")
+                .addAsResource("META-INF/keys/privatekey.pem", "META-INF/keys/privatekey.pem")
                 .addAsWebResource(new File(WEBAPP_SRC, "login.xhtml"))
                 .addAsWebResource(new File(WEBAPP_SRC, "profile.xhtml"));
     }
@@ -51,7 +51,7 @@ public class SecurityIT {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(baseUrl.toExternalForm() + "api/token"))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString("{\"username\":\"restuser\",\"password\":\"password\"}"))
+                .POST(HttpRequest.BodyPublishers.ofString("{\"username\":\"user\",\"password\":\"password\"}"))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode(), "token endpoint should issue a JWT for valid credentials");

@@ -62,7 +62,7 @@ public class LoginBean {
             case SEND_FAILURE -> addError(facesContext, "Authentication failed");
             case SUCCESS -> {
                 try {
-                    externalContext.redirect("profile.xhtml");
+                    externalContext.redirect("index.xhtml");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

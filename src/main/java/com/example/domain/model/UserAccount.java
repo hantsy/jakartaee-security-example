@@ -1,16 +1,22 @@
 package com.example.domain.model;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class UserAccount {
@@ -31,9 +37,11 @@ public class UserAccount {
     @Column(nullable = false)
     private boolean enabled;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_account_roles", joinColumns = @JoinColumn(name = "user_account_id"))
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private RoleType role;
+    @Column(name = "role", nullable = false)
+    private Set<RoleType> roles = new HashSet<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -44,11 +52,11 @@ public class UserAccount {
     protected UserAccount() {
     }
 
-    public UserAccount(String username, String email, String password, RoleType role) {
+    public UserAccount(String username, String email, String password, Set<RoleType> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
         this.enabled = true;
     }
 
@@ -100,12 +108,12 @@ public class UserAccount {
         this.enabled = enabled;
     }
 
-    public RoleType getRole() {
-        return role;
+    public Set<RoleType> getRoles() {
+        return roles;
     }
 
-    public void setRole(RoleType role) {
-        this.role = role;
+    public void setRoles(Set<RoleType> roles) {
+        this.roles = roles;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -5,6 +5,7 @@ import com.example.application.GetUserUseCase;
 import com.example.application.ToggleUserEnabledUseCase;
 import com.example.application.UserNotFoundException;
 import com.example.domain.model.UserAccount;
+import com.example.infrastructure.security.Authorized;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -13,6 +14,7 @@ import org.omnifaces.cdi.Param;
 
 @Named
 @RequestScoped
+@Authorized(roles = "admin")
 public class UserDetailsBean {
 
     @Inject

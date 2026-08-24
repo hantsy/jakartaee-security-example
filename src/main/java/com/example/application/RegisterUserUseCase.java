@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 import java.time.Instant;
+import java.util.Set;
 
 @UseCase
 public class RegisterUserUseCase {
@@ -27,7 +28,7 @@ public class RegisterUserUseCase {
             throw new UsernameAlreadyExistsException(username);
         }
 
-        UserAccount user = repository.save(new UserAccount(username, email, passwordHash.generate(password.toCharArray()), RoleType.REST));
+        UserAccount user = repository.save(new UserAccount(username, email, passwordHash.generate(password.toCharArray()), Set.of(RoleType.USER)));
 
         userRegisteredEvent.fire(new UserRegisteredEvent(user.getUsername(), Instant.now()));
 

@@ -1,6 +1,6 @@
 package com.example.interfaces.faces;
 
-import com.example.infrastructure.security.Authenticated;
+import com.example.infrastructure.security.Authorized;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 @RequestScoped
 @Named("profileBean")
-@Authenticated
+@Authorized(roles = "admin")
 public class ProfileBean {
 
     @Inject

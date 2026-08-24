@@ -2,8 +2,8 @@ package com.example.domain.model;
 
 public enum RoleType {
 
-    WEB("web"),
-    REST("rest");
+    USER("user"),
+    ADMIN("admin");
 
     private final String roleName;
 

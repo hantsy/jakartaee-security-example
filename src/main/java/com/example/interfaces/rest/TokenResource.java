@@ -69,9 +69,9 @@ public class TokenResource {
     }
 
     private PrivateKey loadPrivateKey() throws Exception {
-        try (var in = getClass().getResourceAsStream("/privatekey.pem")) {
+        try (var in = getClass().getResourceAsStream("/META-INF/keys/privatekey.pem")) {
             if (in == null) {
-                throw new IllegalStateException("privatekey.pem not found on classpath");
+                throw new IllegalStateException("META-INF/keys/privatekey.pem not found on classpath");
             }
             String pem = new String(in.readAllBytes());
             String base64 = pem

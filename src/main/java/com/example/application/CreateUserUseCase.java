@@ -10,6 +10,7 @@ import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.Set;
 
 @UseCase
 public class CreateUserUseCase {
@@ -26,9 +27,9 @@ public class CreateUserUseCase {
     @Inject
     private Event<UserCreatedEvent> userCreatedEvent;
 
-    public String create(String username, String email, RoleType role) {
+    public String create(String username, String email, Set<RoleType> roles) {
         String password = generatePassword();
-        repository.save(new UserAccount(username, email, passwordHash.generate(password.toCharArray()), role));
+        repository.save(new UserAccount(username, email, passwordHash.generate(password.toCharArray()), roles));
         userCreatedEvent.fire(new UserCreatedEvent(username, Instant.now()));
         return password;
     }

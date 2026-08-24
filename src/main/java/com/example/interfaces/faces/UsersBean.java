@@ -2,6 +2,7 @@ package com.example.interfaces.faces;
 
 import com.example.application.ListUsersUseCase;
 import com.example.domain.model.UserAccount;
+import com.example.infrastructure.security.Authorized;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Named
 @RequestScoped
+@Authorized(roles = "admin")
 public class UsersBean {
 
     @Inject

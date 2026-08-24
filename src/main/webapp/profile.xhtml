@@ -1,16 +1,28 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:h="jakarta.faces.html"
-      xmlns:f="jakarta.faces.core">
-<h:head>
-    <f:metadata>
-        <f:viewAction action="#{profileBean.init()}"/>
-    </f:metadata>
-    <title>Profile</title>
-</h:head>
-<h:body>
-    <h1>Profile</h1>
-    <div><strong>Principal Name</strong>: #{profileBean.name}</div>
-    <div><strong>Roles</strong>: #{profileBean.roles}</div>
-</h:body>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                template="/WEB-INF/layout/template.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewAction action="#{profileBean.init()}"/>
+        </f:metadata>
+    </ui:define>
+    <ui:define name="pageTitle">Profile</ui:define>
+    <ui:define name="content">
+        <div class="detail-card">
+            <div class="detail-row">
+                <div class="detail-label"><i class="bi bi-person"></i>Principal Name</div>
+                <div class="detail-value">#{profileBean.name}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label"><i class="bi bi-shield-lock"></i>Roles</div>
+                <div class="detail-value">
+                    <ui:repeat var="r" value="#{profileBean.roles}">
+                        <span class="role-badge">#{r}</span>
+                    </ui:repeat>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

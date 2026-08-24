@@ -9,6 +9,7 @@ import jakarta.enterprise.event.Startup;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
+import java.util.Set;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -23,8 +24,8 @@ public class DataInitializer {
     private Pbkdf2PasswordHash passwordHash;
 
     public void onStartup(@Observes Startup event) {
-        repository.save(new UserAccount("webuser", "webuser@example.com", passwordHash.generate("password".toCharArray()), RoleType.WEB));
-        repository.save(new UserAccount("restuser", "restuser@example.com", passwordHash.generate("password".toCharArray()), RoleType.REST));
-        LOG.info("Seeded identity store users: webuser, restuser");
+        repository.save(new UserAccount("admin", "admin@example.com", passwordHash.generate("password".toCharArray()), Set.of(RoleType.ADMIN)));
+        repository.save(new UserAccount("user", "user@example.com", passwordHash.generate("password".toCharArray()), Set.of(RoleType.USER)));
+        LOG.info("Seeded identity store users: admin, user");
     }
 }

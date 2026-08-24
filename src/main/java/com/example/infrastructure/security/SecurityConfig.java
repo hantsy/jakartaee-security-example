@@ -13,7 +13,7 @@ import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue
         ),
         qualifiers = {WebAuthenticationQualifier.class}
 )
-@DeclareRoles({"web", "rest"})
+@DeclareRoles({"user", "admin"})
 @ApplicationScoped
 public class SecurityConfig {
 }

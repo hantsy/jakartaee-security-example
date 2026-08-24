@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -26,8 +27,33 @@ public class JpaUserAccountRepository implements UserAccountRepository {
 
     @Override
     @Transactional
+    public Optional<UserAccount> findById(Long id) {
+        return Optional.ofNullable(em.find(UserAccount.class, id));
+    }
+
+    @Override
+    @Transactional
+    public List<UserAccount> findAll() {
+        return em.createQuery("select u from UserAccount u order by u.createdAt", UserAccount.class)
+                .getResultList();
+    }
+
+    @Override
+    @Transactional
     public UserAccount save(UserAccount user) {
         em.persist(user);
         return user;
+    }
+
+    @Override
+    @Transactional
+    public UserAccount update(UserAccount user) {
+        return em.merge(user);
+    }
+
+    @Override
+    @Transactional
+    public void delete(UserAccount user) {
+        em.remove(em.merge(user));
     }
 }

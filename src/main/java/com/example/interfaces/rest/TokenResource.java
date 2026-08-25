@@ -1,11 +1,6 @@
 package com.example.interfaces.rest;
 
-import com.nimbusds.jose.JOSEObjectType;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.crypto.RSASSASigner;
-import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
+import com.example.infrastructure.security.UnauthorizedException;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.credential.Password;
@@ -19,15 +14,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.time.Instant;
-import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RequestScoped
 @Path("token")
 public class TokenResource {
+
+    private static final Logger LOG = Logger.getLogger(TokenResource.class.getName());
 
     // Delegates to all IdentityStore beans in priority order.
     @Inject
@@ -36,55 +30,19 @@ public class TokenResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response generateToken(TokenRequest request) {
+    public Response generateToken(TokenRequest request) throws UnauthorizedException {
         CredentialValidationResult result = identityStoreHandler.validate(
                 new UsernamePasswordCredential(request.username(), new Password(request.password())));
 
         if (result.getStatus() != CredentialValidationResult.Status.VALID) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            throw new UnauthorizedException();
         }
 
         try {
-            return Response.ok(new TokenResponse(issueToken(request.username(), result.getCallerGroups()))).build();
+            return Response.ok(new TokenResponse(TokenUtil.generateToken(request.username(), result.getCallerGroups()))).build();
         } catch (Exception e) {
-            return Response.serverError().entity(e.getMessage()).build();
-        }
-    }
-
-    private String issueToken(String username, Set<String> groups) throws Exception {
-        PrivateKey privateKey = loadPrivateKey();
-
-        JWTClaimsSet claims = new JWTClaimsSet.Builder()
-                .issuer("jakartaee12-sandbox")
-                .subject(username)
-                .jwtID(UUID.randomUUID().toString())
-                .claim("upn", username)
-                .claim("groups", List.copyOf(groups))
-                .issueTime(Date.from(Instant.now()))
-                .expirationTime(Date.from(Instant.now().plusSeconds(3600)))
-                .build();
-
-        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
-                .type(JOSEObjectType.JWT)
-                .build();
-
-        SignedJWT jwt = new SignedJWT(header, claims);
-        jwt.sign(new RSASSASigner(privateKey));
-        return jwt.serialize();
-    }
-
-    private PrivateKey loadPrivateKey() throws Exception {
-        try (var in = getClass().getResourceAsStream("/META-INF/keys/privatekey.pem")) {
-            if (in == null) {
-                throw new IllegalStateException("META-INF/keys/privatekey.pem not found on classpath");
-            }
-            String pem = new String(in.readAllBytes());
-            String base64 = pem
-                    .replace("-----BEGIN PRIVATE KEY-----", "")
-                    .replace("-----END PRIVATE KEY-----", "")
-                    .replaceAll("\\s", "");
-            return KeyFactory.getInstance("RSA")
-                    .generatePrivate(new PKCS8EncodedKeySpec(Base64.getDecoder().decode(base64)));
+            LOG.log(Level.WARNING, "Failed to generate token: {0}", e);
+            throw new UnauthorizedException();
         }
     }
 }

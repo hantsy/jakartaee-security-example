@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:faces="jakarta.faces"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                template="/WEB-INF/layout/template.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="id" value="#{userDetailsBean.id}" required="true"/>
+            <f:viewAction action="#{userDetailsBean.load}"/>
+        </f:metadata>
+    </ui:define>
+    <ui:define name="pageTitle">User Details (##{userDetailsBean.user.id})</ui:define>
+    <ui:define name="content">
+        <h:message for="id" styleClass="text-danger"/>
+
+        <div class="detail-card">
+            <div class="detail-row">
+                <div class="detail-label">Username</div>
+                <div class="detail-value">#{userDetailsBean.user.username}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Email</div>
+                <div class="detail-value">#{userDetailsBean.user.email}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Roles</div>
+                <div class="detail-value">
+                    <ui:repeat var="r" value="#{userDetailsBean.user.roles}">
+                        <span class="role-badge">#{r}</span>
+                    </ui:repeat>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">
+                    <span class="badge bg-success" faces:rendered="#{userDetailsBean.user.enabled}">Enabled</span>
+                    <span class="badge bg-secondary" faces:rendered="#{not userDetailsBean.user.enabled}">Disabled</span>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Created At</div>
+                <div class="detail-value">#{userDetailsBean.user.createdAt}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Updated At</div>
+                <div class="detail-value">#{userDetailsBean.user.updatedAt}</div>
+            </div>
+        </div>
+
+        <form faces:id="actions" class="mt-4 d-flex gap-2">
+            <button faces:id="toggle" type="submit" faces:action="#{userDetailsBean.toggleEnabled}" class="btn btn-warning">
+                #{userDetailsBean.user.enabled ? 'Disable' : 'Enable'}
+            </button>
+            <button faces:id="delete" type="submit" faces:action="#{userDetailsBean.delete}" class="btn btn-danger"
+                    onclick="return confirm('Delete this user?');">
+                Delete
+            </button>
+            <a faces:outcome="/users/list.xhtml" class="btn btn-outline-secondary ms-auto">Cancel</a>
+        </form>
+    </ui:define>
+</ui:composition>

@@ -7,7 +7,7 @@
     <ui:define name="pageTitle">Users</ui:define>
     <ui:define name="content">
         <div class="d-flex justify-content-end mb-3">
-            <a faces:outcome="/users/new" class="btn btn-primary">
+            <a faces:outcome="/users/new.xhtml" class="btn btn-primary">
                 <i class="bi bi-person-plus me-1"></i>Add User
             </a>
         </div>
@@ -38,7 +38,8 @@
                                 <span class="badge bg-secondary" faces:rendered="#{not user.enabled}">Disabled</span>
                             </td>
                             <td>
-                                <a faces:outcome="/users/#{user.id}" class="btn btn-sm btn-outline-primary">
+                                <a faces:outcome="/users/details.xhtml" class="btn btn-sm btn-outline-primary">
+                                    <f:param name="id" value="#{user.id}"/>
                                     <i class="bi bi-eye me-1"></i>Details
                                 </a>
                             </td>

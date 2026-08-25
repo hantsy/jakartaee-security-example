@@ -4,7 +4,6 @@ import jakarta.annotation.security.DeclareRoles;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
 import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue;
-import org.eclipse.microprofile.auth.LoginConfig;
 
 @CustomFormAuthenticationMechanismDefinition(
         loginToContinue = @LoginToContinue(
@@ -16,6 +15,6 @@ import org.eclipse.microprofile.auth.LoginConfig;
 )
 @DeclareRoles({"user", "admin"})
 @ApplicationScoped
-@LoginConfig(authMethod="MP-JWT", realmName="MP JWT Realm")
+//@LoginConfig(authMethod = "MP-JWT", realmName = "MP JWT Realm")
 public class SecurityConfig {
 }

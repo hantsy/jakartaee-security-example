@@ -22,11 +22,7 @@ import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @RequestScoped
 @Path("token")
@@ -61,6 +57,7 @@ public class TokenResource {
                 .issuer("jakartaee12-sandbox")
                 .subject(username)
                 .jwtID(UUID.randomUUID().toString())
+                .claim("typ", "JWT")
                 .claim("upn", username)
                 .claim("groups", List.copyOf(groups))
                 .issueTime(Date.from(Instant.now()))

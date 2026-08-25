@@ -78,7 +78,7 @@ main > .container {
 
 .nav-link.active {
     color: #fff !important;
-    background: rgba(99, 102, 241, 0.2);
+    background: var(--primary) !important;
 }
 
 /* Page Titles */
@@ -150,6 +150,18 @@ main > .container {
 
 .btn-outline-secondary {
     color: var(--text-muted);
+}
+
+.btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    color: #ffffff;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-glow);
 }
 
 /* Forms and Inputs */
@@ -237,8 +249,15 @@ main > .container {
 
 /* Role multi-select toggle buttons */
 .role-select {
-    border-collapse: separate;
-    border-spacing: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.role-select li:not(:first-child) {
+    margin-left: -1px;
 }
 
 .role-select input[type="checkbox"] {
@@ -251,20 +270,31 @@ main > .container {
     gap: 0.4rem;
     padding: 0.5rem 1.25rem;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border-radius: 0;
     font-weight: 600;
     font-size: 0.875rem;
     color: var(--text-muted);
     cursor: pointer;
     transition: var(--transition);
     background: #ffffff;
+    position: relative;
+}
+
+.role-select li:first-child label {
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+}
+
+.role-select li:last-child label {
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
 }
 
 .role-select input[type="checkbox"]:checked + label {
     background: var(--primary);
     border-color: var(--primary);
     color: #ffffff;
-    box-shadow: 0 0 0 4px var(--primary-glow);
+    z-index: 1;
 }
 
 /* Role badge in list/detail */
@@ -322,4 +352,113 @@ footer a {
 footer a:hover {
     color: var(--primary) !important;
     transform: scale(1.15);
+}
+
+/* Landing hero */
+.hero {
+    /* Full-bleed: escape the template's .container (max-width + 100px/40px padding),
+       keeping the 2rem page-title margin as space below the navbar. */
+    margin: -100px calc(50% - 50vw) -40px;
+    padding: 4rem 2rem;
+    /* Fill the viewport between the navbar and footer (minus the top gap). */
+    min-height: calc(100vh - 172px);
+
+    /* Transparent light-to-darker gradient over the page background. */
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(67, 56, 202, 0.28) 100%);
+
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 6vw, 3.75rem);
+    line-height: 1.1;
+    color: #1e1b4b;
+    margin: 1.5rem 0 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 620px;
+    margin: 0 auto 2rem;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.hero .btn {
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+}
+
+.hero-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 960px;
+    margin-top: 3rem;
+}
+
+.feature {
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(99, 102, 241, 0.18);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem 1.25rem;
+}
+
+.feature i {
+    display: block;
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.feature h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+}
+
+.feature p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    .hero-features {
+        grid-template-columns: 1fr;
+    }
 }

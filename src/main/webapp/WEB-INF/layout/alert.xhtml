@@ -2,8 +2,8 @@
                 xmlns:faces="jakarta.faces"
                 xmlns:ui="jakarta.faces.facelets">
     <div faces:id="alerts-container"
-         faces:rendered="#{not facesContext.validationFailed and not empty facesContext.messageList}">
-        <ui:repeat var="message" value="#{facesContext.messageList}">
+         faces:rendered="#{not facesContext.validationFailed and not empty facesContext.getMessageList(null)}">
+        <ui:repeat var="message" value="#{facesContext.getMessageList(null)}">
             <div class="alert alert-dismissible fade show #{message.severity.ordinal==0?'alert-success':(message.severity.ordinal==1?'alert-warning':'alert-danger')} d-flex align-items-center justify-content-between"
                  role="alert">
                 <div class="d-flex align-items-center">

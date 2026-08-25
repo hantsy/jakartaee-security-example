@@ -12,11 +12,11 @@
     <ui:define name="content">
         <div class="detail-card">
             <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-person"></i>Principal Name</div>
+                <div class="detail-label">Principal Name</div>
                 <div class="detail-value">#{profileBean.name}</div>
             </div>
             <div class="detail-row">
-                <div class="detail-label"><i class="bi bi-shield-lock"></i>Roles</div>
+                <div class="detail-label">Roles</div>
                 <div class="detail-value">
                     <ui:repeat var="r" value="#{profileBean.roles}">
                         <span class="role-badge">#{r}</span>

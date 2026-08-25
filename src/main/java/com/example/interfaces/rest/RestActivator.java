@@ -8,5 +8,6 @@ import org.eclipse.microprofile.auth.LoginConfig;
 
 @ApplicationPath("/api")
 @ApplicationScoped
+@LoginConfig(authMethod = "MP-JWT", realmName = "MP JWT Realm")
 public class RestActivator extends Application {
 }

@@ -61,8 +61,9 @@
         <display-name>Authenticated pages</display-name>
         <web-resource-collection>
             <web-resource-name>Protected pages</web-resource-name>
-            <url-pattern>/</url-pattern>
+            <url-pattern>/index</url-pattern>
             <url-pattern>/index.xhtml</url-pattern>
+            <url-pattern>/profile</url-pattern>
             <url-pattern>/profile.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>

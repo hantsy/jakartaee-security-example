@@ -34,11 +34,17 @@
         <arquillian-bom.version>1.10.1.Final</arquillian-bom.version>
         <arquillian-jakarta-bom.version>10.0.0.Final</arquillian-jakarta-bom.version>
         <shrinkwrap-resolver-bom.version>3.3.4</shrinkwrap-resolver-bom.version>
+        <arquillian-drone.version>3.0.1.Final</arquillian-drone.version>
+        <arquillian-graphene.version>3.0.1.Final</arquillian-graphene.version>
         <junit-jupiter.version>6.0.3</junit-jupiter.version>
         <assertj.version>3.27.7</assertj.version>
+        <awaitility.version>4.3.0</awaitility.version>
 
         <skip.unit.tests>false</skip.unit.tests>
         <skip.integration.tests>true</skip.integration.tests>
+
+        <!-- Graphene WebDriver browser -->
+        <browser>chromeheadless</browser>
     </properties>
 
     <dependencyManagement>
@@ -77,6 +83,27 @@
                 <version>${assertj.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-bom</artifactId>
+                <version>${arquillian-drone.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.graphene</groupId>
+                <artifactId>graphene-webdriver</artifactId>
+                <version>${arquillian-graphene.version}</version>
+                <type>pom</type>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.extension</groupId>
+                <artifactId>arquillian-drone-webdriver-depchain</artifactId>
+                <version>${arquillian-drone.version}</version>
+                <type>pom</type>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -118,6 +145,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.arquillian.junit5</groupId>
             <artifactId>arquillian-junit5-container</artifactId>
             <scope>test</scope>
@@ -129,9 +162,18 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <artifactId>shrinkwrap-resolver-depchain</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver</artifactId>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Jersey Client -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
@@ -146,7 +188,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
+            <artifactId>jersey-media-json-binding</artifactId>
             <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
@@ -155,6 +197,12 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -285,7 +333,8 @@
                                 <properties>
                                     <cargo.port.offset>10000</cargo.port.offset>
                                     <cargo.remote.password/>
-                                    <cargo.glassfish.removeDefaultDatasource>true</cargo.glassfish.removeDefaultDatasource>
+                                    <cargo.glassfish.removeDefaultDatasource>true
+                                    </cargo.glassfish.removeDefaultDatasource>
                                 </properties>
                                 <datasources>
                                     <datasource>

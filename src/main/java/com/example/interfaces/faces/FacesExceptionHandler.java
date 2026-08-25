@@ -11,6 +11,8 @@ import jakarta.faces.event.ExceptionQueuedEvent;
 import jakarta.faces.event.ExceptionQueuedEventContext;
 import jakarta.security.enterprise.AuthenticationException;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -72,30 +74,38 @@ public class FacesExceptionHandler extends ExceptionHandlerWrapper {
     private void handleViewExpiredException(ViewExpiredException vee) {
         LOG.log(Level.INFO, "Handling ViewExpiredException: {0}", vee.getMessage());
         FacesContext context = FacesContext.getCurrentInstance();
+
         String viewId = vee.getViewId();
         NavigationHandler nav = context.getApplication().getNavigationHandler();
         nav.handleNavigation(context, null, viewId);
-        context.renderResponse();
+
+        context.responseComplete();
     }
 
     private void handleAuthenticationException(AuthenticationException e) {
         LOG.log(Level.INFO, "Handling AuthenticationException: {0}", e.getMessage());
         FacesContext context = FacesContext.getCurrentInstance();
-        String loginViewId = "/login.xhtml?faces-redirect=true";
+
+        // URL encode the message safely
+        String encodedMessage = URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
+        String loginViewId = "/login.xhtml?faces-redirect=true&error=" + encodedMessage;
+
         NavigationHandler nav = context.getApplication().getNavigationHandler();
         nav.handleNavigation(context, null, loginViewId);
-        context.getViewRoot().getViewMap(true).put("errors", e.getMessage());
-        context.renderResponse();
+
+        context.responseComplete();
     }
 
     private void handleGenericException(Throwable e) {
         LOG.log(Level.INFO, "Handling generic exception: {0}", e.getMessage());
         FacesContext facesContext = FacesContext.getCurrentInstance();
+
         Flash flash = facesContext.getExternalContext().getFlash();
         flash.put("message", e.getMessage());
         flash.put("type", e.getClass().getName());
+
         NavigationHandler nav = facesContext.getApplication().getNavigationHandler();
         nav.handleNavigation(facesContext, null, "/error.xhtml?faces-redirect=true");
-        facesContext.renderResponse();
+        facesContext.responseComplete();
     }
 }

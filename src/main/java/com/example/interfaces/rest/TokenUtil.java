@@ -29,7 +29,6 @@ public final class TokenUtil {
                 .issuer("https://hantsy.github.io/jakartaee-security-example")
                 .subject(username)
                 .jwtID(UUID.randomUUID().toString())
-
                 // upn and groups is required by MP-JWT
                 .claim("upn", username)
                 .claim("groups", List.copyOf(groups))
@@ -38,7 +37,7 @@ public final class TokenUtil {
                 .build();
 
         JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
-                .type(JOSEObjectType.JWT)
+                .type(JOSEObjectType.JWT) // required by MP-JWT
                 .build();
 
         SignedJWT jwt = new SignedJWT(header, claims);

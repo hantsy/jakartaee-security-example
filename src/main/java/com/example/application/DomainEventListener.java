@@ -15,6 +15,6 @@ public class DomainEventListener {
     Logger logger;
 
     public void onUserEvent(@Observes UserEvent event) {
-        logger.log(Level.INFO, "UserEvent: {0}" + event);
+        logger.log(Level.INFO, "Observing UserEvent: {0}" + event);
     }
 }

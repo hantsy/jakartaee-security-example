@@ -1,6 +1,5 @@
 package com.example.infrastructure.security;
 
-import com.example.domain.repository.UserAccountRepository;
 import jakarta.inject.Inject;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
@@ -19,9 +18,6 @@ public class AuthenticatedInterceptor {
     @Inject
     SecurityContext securityContext;
 
-    @Inject
-    UserAccountRepository repository;
-
     @AroundInvoke
     public Object checkAuthenticated(InvocationContext ctx) throws Exception {
         LOGGER.log(Level.INFO, "Enter AuthenticatedInterceptor....");
@@ -36,13 +32,6 @@ public class AuthenticatedInterceptor {
             if (securityContext.getCallerPrincipal() == null) {
                 LOGGER.log(Level.INFO, "Principal is unauthenticated!!!");
                 throw new UnauthorizedException();
-            }
-
-            var user = repository.findByUsername(securityContext.getCallerPrincipal().getName())
-                    .orElseThrow(UnauthorizedException::new);
-            if (!user.isEnabled()) {
-                LOGGER.log(Level.INFO, "Account is disabled!!!");
-                throw new UnauthorizedException("Account is disabled");
             }
         }
 

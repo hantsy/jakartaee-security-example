@@ -78,7 +78,7 @@ main > .container {
 
 .nav-link.active {
     color: #fff !important;
-    background: rgba(99, 102, 241, 0.2);
+    background: var(--primary) !important;
 }
 
 /* Page Titles */
@@ -238,7 +238,13 @@ main > .container {
 /* Role multi-select toggle buttons */
 .role-select {
     border-collapse: separate;
-    border-spacing: 0.5rem;
+    border-spacing: 0;
+}
+
+.role-select td {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .role-select input[type="checkbox"] {

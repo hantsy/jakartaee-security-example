@@ -4,35 +4,53 @@
                 xmlns:f="jakarta.faces.core"
                 xmlns:h="jakarta.faces.html"
                 template="/WEB-INF/layout/template.xhtml">
-    <ui:define name="pageTitle">User Details</ui:define>
+    <ui:define name="pageTitle">User Details (##{userDetailsBean.user.id})</ui:define>
     <ui:define name="content">
-        <table class="table table-bordered">
-            <tbody>
-                <tr><th scope="row">ID</th><td>#{userDetailsBean.user.id}</td></tr>
-                <tr><th scope="row">Username</th><td>#{userDetailsBean.user.username}</td></tr>
-                <tr><th scope="row">Email</th><td>#{userDetailsBean.user.email}</td></tr>
-                <tr>
-                    <th scope="row">Roles</th>
-                    <td>
-                        <ui:repeat var="r" value="#{userDetailsBean.user.roles}">
-                            <span class="role-badge">#{r}</span>
-                        </ui:repeat>
-                    </td>
-                </tr>
-                <tr><th scope="row">Status</th><td>#{userDetailsBean.user.enabled}</td></tr>
-                <tr><th scope="row">Created At</th><td>#{userDetailsBean.user.createdAt}</td></tr>
-                <tr><th scope="row">Updated At</th><td>#{userDetailsBean.user.updatedAt}</td></tr>
-            </tbody>
-        </table>
 
-        <form faces:id="actions">
+
+        <div class="detail-card">
+            <div class="detail-row">
+                <div class="detail-label">Username</div>
+                <div class="detail-value">#{userDetailsBean.user.username}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Email</div>
+                <div class="detail-value">#{userDetailsBean.user.email}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Roles</div>
+                <div class="detail-value">
+                    <ui:repeat var="r" value="#{userDetailsBean.user.roles}">
+                        <span class="role-badge">#{r}</span>
+                    </ui:repeat>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">
+                    <span class="badge bg-success" faces:rendered="#{userDetailsBean.user.enabled}">Enabled</span>
+                    <span class="badge bg-secondary" faces:rendered="#{not userDetailsBean.user.enabled}">Disabled</span>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Created At</div>
+                <div class="detail-value">#{userDetailsBean.user.createdAt}</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label">Updated At</div>
+                <div class="detail-value">#{userDetailsBean.user.updatedAt}</div>
+            </div>
+        </div>
+
+        <form faces:id="actions" class="mt-4 d-flex gap-2">
             <button faces:id="toggle" type="submit" faces:action="#{userDetailsBean.toggleEnabled}" class="btn btn-warning">
                 #{userDetailsBean.user.enabled ? 'Disable' : 'Enable'}
             </button>
-            <button faces:id="delete" type="submit" faces:action="#{userDetailsBean.delete}" class="btn btn-danger ms-2"
+            <button faces:id="delete" type="submit" faces:action="#{userDetailsBean.delete}" class="btn btn-danger"
                     onclick="return confirm('Delete this user?');">
                 Delete
             </button>
+            <a faces:outcome="/users/index.xhtml" class="btn btn-outline-secondary ms-auto">Cancel</a>
         </form>
     </ui:define>
 </ui:composition>

@@ -10,11 +10,13 @@
         <param-value>Development</param-value>
     </context-param>
 
+    <!-- extensionless views disabled -->
+    <!--
     <context-param>
         <param-name>jakarta.faces.AUTOMATIC_EXTENSIONLESS_MAPPING</param-name>
         <param-value>true</param-value>
     </context-param>
-
+    -->
     <context-param>
         <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name>
         <param-value>/*.xhtml/*</param-value>
@@ -35,7 +37,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>index</welcome-file>
     </welcome-file-list>
 
     <context-param>
@@ -46,11 +48,23 @@
     <security-constraint>
         <display-name>Admin pages</display-name>
         <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <url-pattern>/users</url-pattern>
+            <url-pattern>/users/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Authenticated pages</display-name>
+        <web-resource-collection>
             <web-resource-name>Protected pages</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>admin</role-name>
+            <role-name>*</role-name>
         </auth-constraint>
     </security-constraint>
 

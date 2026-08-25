@@ -10,7 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.security.enterprise.credential.Password;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
 import jakarta.security.enterprise.identitystore.CredentialValidationResult;
-import jakarta.security.enterprise.identitystore.IdentityStore;
+import jakarta.security.enterprise.identitystore.IdentityStoreHandler;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -26,19 +26,21 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @RequestScoped
 @Path("token")
 public class TokenResource {
 
+    // Delegates to all IdentityStore beans in priority order.
     @Inject
-    private IdentityStore identityStore;
+    private IdentityStoreHandler identityStoreHandler;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response generateToken(TokenRequest request) {
-        CredentialValidationResult result = identityStore.validate(
+        CredentialValidationResult result = identityStoreHandler.validate(
                 new UsernamePasswordCredential(request.username(), new Password(request.password())));
 
         if (result.getStatus() != CredentialValidationResult.Status.VALID) {
@@ -58,6 +60,8 @@ public class TokenResource {
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
                 .issuer("jakartaee12-sandbox")
                 .subject(username)
+                .jwtID(UUID.randomUUID().toString())
+                .claim("upn", username)
                 .claim("groups", List.copyOf(groups))
                 .issueTime(Date.from(Instant.now()))
                 .expirationTime(Date.from(Instant.now().plusSeconds(3600)))

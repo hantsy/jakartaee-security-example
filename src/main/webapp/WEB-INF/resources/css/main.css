@@ -237,14 +237,15 @@ main > .container {
 
 /* Role multi-select toggle buttons */
 .role-select {
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.role-select td {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.role-select li:not(:first-child) {
+    margin-left: -1px;
 }
 
 .role-select input[type="checkbox"] {
@@ -257,20 +258,31 @@ main > .container {
     gap: 0.4rem;
     padding: 0.5rem 1.25rem;
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    border-radius: 0;
     font-weight: 600;
     font-size: 0.875rem;
     color: var(--text-muted);
     cursor: pointer;
     transition: var(--transition);
     background: #ffffff;
+    position: relative;
+}
+
+.role-select li:first-child label {
+    border-top-left-radius: var(--radius-sm);
+    border-bottom-left-radius: var(--radius-sm);
+}
+
+.role-select li:last-child label {
+    border-top-right-radius: var(--radius-sm);
+    border-bottom-right-radius: var(--radius-sm);
 }
 
 .role-select input[type="checkbox"]:checked + label {
     background: var(--primary);
     border-color: var(--primary);
     color: #ffffff;
-    box-shadow: 0 0 0 4px var(--primary-glow);
+    z-index: 1;
 }
 
 /* Role badge in list/detail */

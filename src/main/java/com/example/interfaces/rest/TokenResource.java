@@ -1,5 +1,6 @@
 package com.example.interfaces.rest;
 
+import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.crypto.RSASSASigner;
@@ -57,14 +58,17 @@ public class TokenResource {
                 .issuer("jakartaee12-sandbox")
                 .subject(username)
                 .jwtID(UUID.randomUUID().toString())
-                .claim("typ", "JWT")
                 .claim("upn", username)
                 .claim("groups", List.copyOf(groups))
                 .issueTime(Date.from(Instant.now()))
                 .expirationTime(Date.from(Instant.now().plusSeconds(3600)))
                 .build();
 
-        SignedJWT jwt = new SignedJWT(new JWSHeader(JWSAlgorithm.RS256), claims);
+        JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.RS256)
+                .type(JOSEObjectType.JWT)
+                .build();
+
+        SignedJWT jwt = new SignedJWT(header, claims);
         jwt.sign(new RSASSASigner(privateKey));
         return jwt.serialize();
     }

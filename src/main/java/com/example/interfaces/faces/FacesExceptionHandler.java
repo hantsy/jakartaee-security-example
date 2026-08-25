@@ -31,39 +31,30 @@ public class FacesExceptionHandler extends ExceptionHandlerWrapper {
         while (events.hasNext()) {
             ExceptionQueuedEvent event = events.next();
             ExceptionQueuedEventContext context = event.getContext();
-            Throwable t = context.getException();
-            Throwable cause = findRootCause(t);
-            if (cause instanceof ViewExpiredException vee) {
-                try {
-                    handleViewExpiredException(vee);
-                } finally {
-                    events.remove();
+            Throwable cause = context.getException();
+            while (cause != null) {
+                LOG.log(Level.INFO, "Caught exception:", cause.getClass().getName());
+                if (cause instanceof ViewExpiredException vee) {
+                    try {
+                        handleViewExpiredException(vee);
+                        break;
+                    } finally {
+                        events.remove();
+                    }
+                } else if (cause instanceof AuthenticationException ae) {
+                    try {
+                        handleAuthenticationException(ae);
+                        break;
+                    } finally {
+                        events.remove();
+                    }
                 }
-            } else if (cause instanceof AuthenticationException ae) {
-                try {
-                    handleAuthenticationException(ae);
-                } finally {
-                    events.remove();
-                }
-            } else {
-                try {
-                    handleGenericException(cause);
-                } finally {
-                    events.remove();
-                }
+                cause = cause.getCause();
             }
         }
         getWrapped().handle();
     }
 
-    private Throwable findRootCause(Throwable t) {
-        Objects.requireNonNull(t);
-        Throwable rootCause = t;
-        while (rootCause.getCause() != null && rootCause.getCause() != t) {
-            rootCause = rootCause.getCause();
-        }
-        return rootCause;
-    }
 
     private void handleViewExpiredException(ViewExpiredException vee) {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -82,13 +73,4 @@ public class FacesExceptionHandler extends ExceptionHandlerWrapper {
         context.renderResponse();
     }
 
-    private void handleGenericException(Throwable e) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        Flash flash = facesContext.getExternalContext().getFlash();
-        flash.put("message", e.getMessage());
-        flash.put("type", e.getClass().getName());
-        NavigationHandler nav = facesContext.getApplication().getNavigationHandler();
-        nav.handleNavigation(facesContext, null, "/error.xhtml?faces-redirect=true");
-        facesContext.renderResponse();
-    }
 }

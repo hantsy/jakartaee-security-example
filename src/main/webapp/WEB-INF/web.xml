@@ -36,6 +36,20 @@
         <url-pattern>*.faces</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>JAX-RS Servlet</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>jakarta.ws.rs.Application</param-name>
+            <param-value>com.example.interfaces.rest.RestActivator</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JAX-RS Servlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>
@@ -44,43 +58,41 @@
         <param-name>jakarta.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
         <param-value>/WEB-INF/resources</param-value>
     </context-param>
-
-<!--    <security-constraint>-->
-<!--        <display-name>Admin pages</display-name>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>Admin pages</web-resource-name>-->
-<!--            <url-pattern>/users</url-pattern>-->
-<!--            <url-pattern>/users/*</url-pattern>-->
-<!--        </web-resource-collection>-->
-<!--        <auth-constraint>-->
-<!--            <role-name>admin</role-name>-->
-<!--        </auth-constraint>-->
-<!--    </security-constraint>-->
-
-<!--    <security-constraint>-->
-<!--        <display-name>Authenticated pages</display-name>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>Protected pages</web-resource-name>-->
-<!--            <url-pattern>/index</url-pattern>-->
-<!--            <url-pattern>/index.xhtml</url-pattern>-->
-<!--            <url-pattern>/profile</url-pattern>-->
-<!--            <url-pattern>/profile.xhtml</url-pattern>-->
-<!--        </web-resource-collection>-->
-<!--        <auth-constraint>-->
-<!--            <role-name>*</role-name>-->
-<!--        </auth-constraint>-->
-<!--    </security-constraint>-->
-
-<!--    <security-constraint>-->
-<!--        <display-name>Public resources</display-name>-->
-<!--        <web-resource-collection>-->
-<!--            <web-resource-name>Public</web-resource-name>-->
-<!--            <url-pattern>/api/*</url-pattern>-->
-<!--            <url-pattern>/login</url-pattern>-->
-<!--            <url-pattern>/login.xhtml</url-pattern>-->
-<!--            <url-pattern>/login.faces</url-pattern>-->
-<!--            <url-pattern>/error.xhtml</url-pattern>-->
-<!--            <url-pattern>/jakarta.faces.resource/*</url-pattern>-->
-<!--        </web-resource-collection>-->
-<!--    </security-constraint>-->
+<!--
+    <security-constraint>
+        <display-name>Admin pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <url-pattern>/users</url-pattern>
+            <url-pattern>/users/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Authenticated pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected pages</web-resource-name>
+            <url-pattern>/index</url-pattern>
+            <url-pattern>/index.xhtml</url-pattern>
+            <url-pattern>/profile</url-pattern>
+            <url-pattern>/profile.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Public resources</display-name>
+        <web-resource-collection>
+            <web-resource-name>Public</web-resource-name>
+            <url-pattern>/api/*</url-pattern>
+            <url-pattern>/login</url-pattern>
+            <url-pattern>/login.xhtml</url-pattern>
+            <url-pattern>/login.faces</url-pattern>
+            <url-pattern>/error.xhtml</url-pattern>
+            <url-pattern>/jakarta.faces.resource/*</url-pattern>
+        </web-resource-collection>
+    </security-constraint>-->
 </web-app>

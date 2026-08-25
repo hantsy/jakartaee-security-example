@@ -15,5 +15,6 @@ import jakarta.security.enterprise.authentication.mechanism.http.LoginToContinue
 )
 @DeclareRoles({"user", "admin"})
 @ApplicationScoped
+//@LoginConfig(authMethod = "MP-JWT", realmName = "MP JWT Realm")
 public class SecurityConfig {
 }

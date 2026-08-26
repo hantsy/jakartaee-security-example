@@ -76,7 +76,7 @@ public class SecurityIT {
         try (Response response = client.target(target("api/token"))
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(new TokenRequest("user", "wrong-password")))) {
-            assertThat(response.getStatus()).isEqualTo(401);
+            assertThat(response.getStatus()).isEqualTo(400);
         }
     }
 

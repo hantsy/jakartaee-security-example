@@ -35,17 +35,12 @@ public class ProfileRedirectIT {
     @Test
     public void testProfileRedirectsToLogin() {
         // Guard the browser navigation so Graphene initializes the runtime
-        //Graphene.guardHttp(browser).get(deploymentUrl.toExternalForm() + "index.xhtml");
+        //Graphene.guardHttp(browser).get(deploymentUrl.toExternalForm() + "profile.xhtml");
 
         // The runtime is now active; waitGui will no longer throw an exception
         //Graphene.waitGui();
 
-        // hinting profile directly will raise an error:
-        //java.lang.IllegalStateException: Cannot create a session after the response has been committed
-
-        Graphene.guardHttp(browser).get(deploymentUrl.toExternalForm() + "profile.xhtml");
-        //Graphene.waitGui();
-
+        browser.get(deploymentUrl.toExternalForm() + "profile.xhtml");
         await().atMost(Duration.ofSeconds(5))
                 .untilAsserted(() -> assertThat(browser.getCurrentUrl()).contains("login.xhtml"));
     }

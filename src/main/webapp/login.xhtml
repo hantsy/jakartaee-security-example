@@ -23,11 +23,22 @@
                                 <p class="text-muted small mb-0">Sign in to continue</p>
                             </div>
 
-                            <div faces:rendered="#{request.parameterMap.containsKey('error')}"
-                                 class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                <span>Login failed. Please check your credentials.</span>
+                            <div faces:id="errorAlert"
+                                 faces:rendered="#{not empty param.error}"
+                                 class="alert alert-danger alert-dismissible fade show d-flex align-items-center"
+                                 role="alert">
+
+                                <!-- Bootstrap Font Icon -->
+                                <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.2rem;"></i>
+
+                                <div>
+                                    <strong>Login Failed:</strong> #{param.error}
+                                </div>
+
+                                <!-- Bootstrap Dismiss Button -->
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
+
 
                             <form faces:id="form">
                                 <div class="mb-3">

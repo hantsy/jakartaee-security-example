@@ -26,7 +26,7 @@
 
         <jakartaee-api.version>11.0.0</jakartaee-api.version>
         <glassfish.version>8.0.4</glassfish.version>
-        <arquillian-glassfish.version>7.0.14</arquillian-glassfish.version>
+        <arquillian-glassfish.version>7.1.1</arquillian-glassfish.version>
         <microprofile-jwt-auth-api.version>2.2</microprofile-jwt-auth-api.version>
         <nimbus-jose-jwt.version>10.10</nimbus-jose-jwt.version>
         <jersey.version>4.0.2</jersey.version>

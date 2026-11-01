@@ -19,17 +19,17 @@
         <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
         <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
-        <maven-surefire-plugin.version>3.6.0</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.6.1</maven-failsafe-plugin.version>
 
         <cargo-maven3-plugin.version>1.10.29</cargo-maven3-plugin.version>
 
         <jakartaee-api.version>11.0.0</jakartaee-api.version>
-        <glassfish.version>8.0.4</glassfish.version>
+        <glassfish.version>8.0.5</glassfish.version>
         <arquillian-glassfish.version>7.1.1</arquillian-glassfish.version>
         <microprofile-jwt-auth-api.version>2.2</microprofile-jwt-auth-api.version>
         <nimbus-jose-jwt.version>10.10</nimbus-jose-jwt.version>
-        <jersey.version>4.0.2</jersey.version>
+        <jersey.version>4.0.3</jersey.version>
 
         <arquillian-bom.version>1.10.2.Final</arquillian-bom.version>
         <arquillian-jakarta-bom.version>10.0.0.Final</arquillian-jakarta-bom.version>
